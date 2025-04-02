@@ -15,7 +15,7 @@ class HeadHunter:
     
     def run(self, job_index, num_pages=1):
         self.crawler.login_linkedin()
-        job_column = self.input_sheet.iloc[job_index]
+        job_column = self.input_sheet.sheet.iloc[job_index]
 
         job_title_list = job_column["Title"]
         job_company_list = job_column["Company"]

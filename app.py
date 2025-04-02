@@ -1,4 +1,4 @@
-from headhunter import HeadHunter
+from headhunter.HeadHunter import HeadHunter
 
 if __name__ == "__main__":
     headhunter = HeadHunter()

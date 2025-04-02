@@ -51,7 +51,7 @@ class InputSheet:
         location_column = self.sheet["Địa điểm"].values.tolist()
         for i, locations in enumerate(location_column):
             if "," in str(locations):
-                location_column[i] = [location.strip() for location in str(locations).split("/")]
+                location_column[i] = [location.strip() for location in str(locations).split(",")]
             else:
                 location_column[i] = [str(locations).strip()]
         new_sheet["Location"] = location_column

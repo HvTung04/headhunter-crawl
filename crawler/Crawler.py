@@ -8,6 +8,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from dotenv import load_dotenv
 import os
 import json
+from urllib.parse import urlparse, parse_qs, urlencode, urlunparse
 
 logging.getLogger("selenium").setLevel(logging.WARNING)
 
@@ -73,6 +74,19 @@ class Crawler:
         query = query.replace(" ", "%20")
         url = f"https://www.linkedin.com/search/results/people/?keywords={query}&page={page}"
         self.driver.get(url)
+        time.sleep(5)
+
+    def change_query(self, query):
+        query = query.replace(" ", "%20")
+        url = self.driver.current_url
+        parsed_url = urlparse(url)
+
+        query_params = parse_qs(parsed_url.query)
+        query_params["keywords"] = [query]
+
+        new_query = urlencode(query_params, doseq=True)
+        new_url = urlunparse((parsed_url.scheme, parsed_url.netloc, parsed_url.path, parsed_url.params, new_query, parsed_url.fragment))
+        self.driver.get(new_url)
         time.sleep(5)
 
     def apply_linkedin_filters(self, filters):

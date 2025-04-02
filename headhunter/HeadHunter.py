@@ -1,6 +1,7 @@
 from crawler.Crawler import Crawler
 from sheet_manager.InputSheet import InputSheet
 from sheet_manager.OutputSheet import OutputSheet
+import random
 
 class HeadHunter:
     def __init__(self):
@@ -18,7 +19,7 @@ class HeadHunter:
         job_column = self.input_sheet.sheet.iloc[job_index]
 
         job_title_list = job_column["Title"]
-        job_company_list = job_column["Company"]
+        job_company_list = [random.choice(job_column["Company"])]
         job_location_list = job_column["Location"]
 
         first_search = True

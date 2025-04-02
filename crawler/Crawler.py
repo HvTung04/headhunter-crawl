@@ -77,7 +77,6 @@ class Crawler:
         time.sleep(5)
 
     def change_query(self, query):
-        query = query.replace(" ", "%20")
         url = self.driver.current_url
         parsed_url = urlparse(url)
 
@@ -107,6 +106,8 @@ class Crawler:
         # 1 current company
         # 4 past company
         for location in filters["location"]:
+            if location.lower() == "hà nội":
+                location = "Hanoi"
             try:
                 filters_button = WebDriverWait(self.driver, 10).until(
                     EC.presence_of_all_elements_located(
@@ -124,7 +125,7 @@ class Crawler:
                     )
                 )
                 location_input.send_keys(location)
-                time.sleep(3)
+                time.sleep(5)
                 location_input.send_keys(Keys.DOWN)
                 location_input.send_keys(Keys.RETURN)
                 time.sleep(3)
@@ -150,10 +151,10 @@ class Crawler:
                     )
                 )[0]
                 company_input.send_keys(company)
-                time.sleep(3)
+                time.sleep(5)
                 company_input.send_keys(Keys.DOWN)
                 company_input.send_keys(Keys.RETURN)
-                time.sleep(3)
+                time.sleep(5)
             except Exception as e:
                 print(e)
                 continue
@@ -195,13 +196,17 @@ class Crawler:
         """
         Get the links of people from the search results.
         """
-        people = WebDriverWait(self.driver, 10).until(
-            EC.presence_of_all_elements_located((By.XPATH, '//div[@class="mb1"]'))
-        )
-        hrefs = []
-        for person in people:
-            hrefs.append(person.find_element(By.TAG_NAME, "a").get_attribute("href"))
-        return hrefs
+        try:
+            people = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_all_elements_located((By.XPATH, '//div[@class="mb1"]'))
+            )
+            hrefs = []
+            for person in people:
+                hrefs.append(person.find_element(By.TAG_NAME, "a").get_attribute("href"))
+            return hrefs
+        except:
+            print("Failed to find people at", self.driver.current_url)
+            return []
 
     def get_company_from_profile(self, profile_link):
         """

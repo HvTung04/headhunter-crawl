@@ -10,6 +10,7 @@ class HeadHunter:
             "Query Job title": [],
             "Query Company": [],
             "Query Location": [],
+            "People": [],
         }
     
     def run(self, job_index, num_pages=1):
@@ -28,3 +29,15 @@ class HeadHunter:
                 self.crawler.apply_linkedin_filters(
                     {"location": job_location_list, "company": job_company_list}
                 )
+                first_search = False
+            else: 
+                self.crawler.change_query(job_title)
+            hrefs = self.crawler.get_people_links()
+            self.data["Query Job title"].extend([job_title] * len(hrefs))
+            self.data["Query Company"].extend([job_company_list] * len(hrefs))
+            self.data["Query Location"].extend([job_location_list] * len(hrefs))
+            self.data["People"].extend(hrefs)
+    
+    def save(self, file_path="output.xlsx"):
+        self.output_sheet = OutputSheet(self.data)
+        self.output_sheet.save(file_path)

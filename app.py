@@ -1,4 +1,4 @@
-from crawler.crawler import Crawler
+from crawler.Crawler import Crawler
 
 crawler = Crawler()
 

@@ -169,20 +169,20 @@ class Crawler:
                         )
                     )
                 )
-                filters_button[1].click()
+                self.driver.execute_script("arguments[0].scrollIntoView(true);", filters_button[4])
+                filters_button[4].click()
 
                 company_input = WebDriverWait(self.driver, 10).until(
                     EC.presence_of_all_elements_located(
                         (By.XPATH, '//input[@placeholder="Add a company"]')
                     )
-                )[1]
-                self.driver.execute_script("arguments[0].scrollIntoView(true);", company_input)
-                time.sleep(3)
+                )[-1]
+                time.sleep(5)
                 company_input.send_keys(company)
-                time.sleep(3)
+                time.sleep(5)
                 company_input.send_keys(Keys.DOWN)
                 company_input.send_keys(Keys.RETURN)
-                time.sleep(3)
+                time.sleep(5)
             except Exception as e:
                 print(e)
                 continue
